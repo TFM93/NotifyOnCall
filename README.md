@@ -5,7 +5,7 @@ Simple Android app to send udp package with the nearest beacon id when an call i
 The purpose of this application is to send a signal to the network when the user is viewing a video and simultaneously answers a call. This signal contains an ID of the nearest viewing device, like a TV.
 To achieve this goal, we designed an Android application that reads bluetooth signals from beacon devices, constantly checks the nearest one, updates the UI and upon a call is received sends an UDP packet to the network.
 
-![alt tag](https://drive.google.com/file/d/0B_aCjcINiHMBbW1CWmZXZWwtclU/view?usp=sharing)
+![alt tag](https://drive.google.com/file/d/0B_aCjcINiHMBdlV0MVRia2ZTQ1U/view?usp=sharing)
 
 Fig 1- mobile application architecture
 
