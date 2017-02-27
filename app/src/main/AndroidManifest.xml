@@ -33,6 +33,7 @@
             <intent-filter >
                 <action android:name="android.intent.action.PHONE_STATE" android:enabled="true"/>
                 <action android:name="com.example.tiagomagalhaes.nearestbeacon" android:enabled="true"/>
+                <action android:name="com.example.tiagomagalhaes.accelerometer" android:enabled="true"/>
                 <!--<action android:name="android.intent.action.NEW_OUTGOING_CALL" android:enabled="true" />-->
             </intent-filter>
         </receiver>

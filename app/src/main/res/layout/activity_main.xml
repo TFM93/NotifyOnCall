@@ -38,4 +38,25 @@
         android:text="BEACONS CONNECTED"
         android:layout_below="@+id/dist" />
 
+    <TextView
+        android:id="@+id/ax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACC X"
+        android:layout_below="@+id/nr" />
+
+    <TextView
+        android:id="@+id/ay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACC Y"
+        android:layout_below="@+id/ax" />
+
+    <TextView
+        android:id="@+id/az"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACC Z"
+        android:layout_below="@+id/ay" />
+
 </RelativeLayout>

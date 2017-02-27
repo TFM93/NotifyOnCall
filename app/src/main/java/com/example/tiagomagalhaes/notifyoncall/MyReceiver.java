@@ -41,7 +41,12 @@ public class MyReceiver extends BroadcastReceiver {
             else {
                 updateNoBeacon();
             }
-        } else {
+        }
+        else if(intent.getAction().equals(BeaconService.ACCELEROMETER_UPDATE)){
+            Log.d("BROADCAST_RECEIVER", intent.getAction());
+            updateAccUI(intent.getDoubleExtra("X", Double.MAX_VALUE),intent.getDoubleExtra("Y", Double.MAX_VALUE),intent.getDoubleExtra("Z", Double.MAX_VALUE));
+        }
+        else {
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             int state = 0;
             if (stateStr != null) {
@@ -54,6 +59,13 @@ public class MyReceiver extends BroadcastReceiver {
 
                 checkCallStateChanges(context, state);
             }
+        }
+    }
+
+    private void updateAccUI(double x, double y, double z) {
+        MainActivity instance = MainActivity.getInstace();
+        if(instance != null){
+            instance.updateUIAcc(x,y,z);
         }
     }
 

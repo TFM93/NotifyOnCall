@@ -2,6 +2,10 @@ package com.example.tiagomagalhaes.notifyoncall;
 
 import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -22,7 +26,12 @@ import java.util.Collection;
  * Created by tiagomagalhaes on 10/02/2017.
  */
 
-public class BeaconService extends Service implements BeaconConsumer{
+public class BeaconService extends Service implements BeaconConsumer, SensorEventListener{
+
+    private SensorManager sensorManager;
+    double ax,ay,az;   // these are the acceleration in x,y and z axis
+    private static int counter;
+
     /** indicates how to behave if the service is killed */
     int mStartMode;
 
@@ -35,6 +44,7 @@ public class BeaconService extends Service implements BeaconConsumer{
     private BeaconManager beaconManager;
     private static BeaconService beaconServiceRunningInstance;
     public static final String BEACON_UPDATE = "com.example.tiagomagalhaes.nearestbeacon";
+    public static final String ACCELEROMETER_UPDATE = "com.example.tiagomagalhaes.accelerometer";
 
 
 
@@ -52,6 +62,14 @@ public class BeaconService extends Service implements BeaconConsumer{
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         beaconManager.bind(this);
+
+
+        sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        ax = 0.0;
+        ay = 0.0;
+        az = 0.0;
+        counter = 0;
     }
 
     /** The service is starting, due to a call to startService() */
@@ -125,5 +143,31 @@ public class BeaconService extends Service implements BeaconConsumer{
         } catch (RemoteException e) {    }
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        counter +=1;
+        if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            //update values
+            ax=event.values[0];
+            ay=event.values[1];
+            az=event.values[2];
 
+            //send update
+            if((counter % 3)== 0) {
+                Log.d("DATA_ACC",ax + ":" + ay + ":" + az);
+                counter=0;
+                Intent intent = new Intent(BeaconService.ACCELEROMETER_UPDATE);
+                intent.putExtra("X", ax);
+                intent.putExtra("Y", ay);
+                intent.putExtra("Z", az);
+                BeaconService.getInstace().sendBroadcast(intent);
+            }
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
 }

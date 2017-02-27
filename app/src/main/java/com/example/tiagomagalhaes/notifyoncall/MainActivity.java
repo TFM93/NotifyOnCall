@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {//implements BeaconConsumer
     protected   TextView id;
     protected   TextView dist;
     protected   TextView nr_connected;
+    protected   TextView ax;
+    protected   TextView ay;
+    protected   TextView az;
 
 
     @Override
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity {//implements BeaconConsumer
         id = (TextView)findViewById(R.id.id);
         dist = (TextView)findViewById(R.id.dist);
         nr_connected = (TextView)findViewById(R.id.nr);
+        ax = (TextView)findViewById(R.id.ax);
+        ay = (TextView)findViewById(R.id.ay);
+        az = (TextView)findViewById(R.id.az);
 
         Intent serviceIntent = new Intent(this,BeaconService.class);
         startService(serviceIntent);
@@ -317,6 +323,17 @@ public class MainActivity extends AppCompatActivity {//implements BeaconConsumer
                     MainActivity.this.id.setText("ID: ".concat(beacon_id));
                 MainActivity.this.dist.setText("BEACON IS AT " + beacon_dist + " METERS.");
                 MainActivity.this.nr_connected.setText(nr.concat(" BEACONS IN RANGE"));
+            }
+        });
+    }
+
+    public void updateUIAcc(final double x, final double y, final double z) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity.this.ax.setText("X: " + x);
+                MainActivity.this.ay.setText("Y: " + y);
+                MainActivity.this.az.setText("Z: " + z);
             }
         });
     }
